@@ -25,12 +25,12 @@ Alerta a pantalla completa de unos 42 s, a 128 BPM, y vuelve sola al tablero.
 
 ## Para incorporarlo
 
-1. **Disparo único y compartido.** Un evento cuando el acumulado del año de Bookings Chile cruce
-   100.000, por el canal `tv-dashboard` de las celebraciones (V3), para que todas las TVs lo
-   muestren a la vez. Idempotente: una sola vez (por ejemplo `dedup_key = hito-100k-2026` en
-   `tv_events`). En el prototipo lo simula `window.TVHito.alCambiarTotal(total)` con
-   `localStorage`; en producción conviene que lo decida el servidor. Necesita el acumulado del año,
-   el mismo dato que falta para el bloque Año.
+1. **Disparo único y compartido.** Un evento la primera vez que el total del mes de Bookings Chile
+   (el total del mes en vivo que ya muestra la TV) llegue a 100.000, por el canal `tv-dashboard` de
+   las celebraciones (V3), para que todas las TVs lo muestren a la vez. Idempotente: una sola vez
+   (por ejemplo `dedup_key = hito-100k-mes` en `tv_events`). En el prototipo lo simula
+   `window.TVHito.alCambiarTotal(total)` con `localStorage`; en producción conviene que lo decida
+   el servidor. No necesita datos nuevos.
 2. **Sonido.** Chrome bloquea el audio si nadie tocó la página. La TV tiene que abrir Chrome con
    `--autoplay-policy=no-user-gesture-required`. Sin eso, la animación corre igual y aparece un
    aviso para tocar la pantalla.

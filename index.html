@@ -7,7 +7,7 @@
 <title>TV Marketplace · Hito 100.000</title>
 <!--
   Marketplace TV · Hito 100.000 bookings (28-10-2026, pedido de Caro)
-  Celebracion a pantalla completa cuando los bookings del año cruzan 100.000. Va encima de la
+  Celebracion a pantalla completa cuando Bookings Chile llega a 100.000 reservas en un mismo mes. Va encima de la
   v57, que corre intacta en un iframe y vuelve sola al terminar (~42 s).
 
   Guion (128 BPM, compas = 1,875 s):
@@ -735,7 +735,7 @@ body{font-family:var(--font);-webkit-font-smoothing:antialiased}
 
   window.TVHito = {
     celebrar, stop,
-    // Produccion: llamar con el total del año cada vez que cambie; celebra una sola vez
+    // Produccion: llamar con el total del mes cada vez que cambie; celebra una sola vez
     alCambiarTotal(total) {
       const key = 'tv-hito-100k';
       let done = false;
