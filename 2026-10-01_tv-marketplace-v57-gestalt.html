@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TV Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   v57-gestalt (D77: en Mes solo el titulo en rich black; meta blanca). Antes, v56-gestalt (D76: Mes con texto rich black y meta blanca). Antes, v55-gestalt (D75: FECHA_DATOS; pie y rotulo generados desde ella). Antes, v54-gestalt (D74: rotulo del grupo con el mes). Antes, v53-gestalt (D72-D73: lineas guia en 20.000 y 40.000 con rotulos al 75 %). Antes, v52-gestalt (D71: rotulo del grupo en 400). Antes, v51-gestalt (D69: etiqueta de comparacion con padding 24/24). Antes, v50-gestalt (D68: comparacion con agosto como segunda etiqueta). Antes, v49-gestalt (D65: escala tipografica 1,25 y espaciados en base 8). Antes, v48-gestalt (D64: titulos a 44). Antes, v47-gestalt (D63: titulos a 800). Antes, v46-gestalt (D61: pills al 20 % con icono invertido; D62: bajada en 400). Antes, v45-gestalt (D59: comparacion alineada al borde del pill; D60: 75 % centrado por su tinta). Antes, v44-gestalt (D57: Hoy y Año a 336, Mes a 488; D58: el 115 a 232). Antes, v43-gestalt (D56: pill de Signups bajo el titulo, anillo a 224). Antes, v42-gestalt (D50-D55: fraccion izquierda y % derecha, exceso con trama, proyeccion de los datos). Antes, v41-gestalt (vuelta 4: proyeccion, barra de NMC, denominadores plenos, Signups a 72). Antes, v40-gestalt (columna derecha en dos columnas). Antes, v39-gestalt (vuelta 3: area por relevancia, barras con marca de meta, anillo oscuro). Antes, v38-gestalt (sin texto que no sirve). Antes, v37-gestalt (vuelta 2: grupo Bookings Chile, tile Mes unico, comparacion con signo). Antes, v36-gestalt (correcciones de la auditoria orquestada v34). Antes, v35-gestalt (color de caja libre + acento coral; NMC con una sola barra). Antes, v34-gestalt (comparacion alineada a las columnas del pill). Antes, v33-gestalt (comparacion con agosto bajo el pill). Antes, v32-gestalt (pills alineados al titulo, iconos con escala de estado). Antes, v31-gestalt (bento por relevancia, layout A). Antes, v30 (titulos 40, leyenda bajo el grafico). Antes, v29-gestalt (paleta slate, periwinkle, columbia, rich black, celadon). Antes, v28-gestalt (bento de la v26, columnas 3+4, graficos en crema, meta en azul, menos palabras). Antes, v26-gestalt (paleta de la lamina de Caro). Antes, v25-gestalt (sin outlines, pesos 500/600/700, contraste AA medido). Antes, v24-gestalt: paleta de la referencia de Caro (negro, lima, amarillo, rosado; tarjetas de grafico negras con borde) como base. Antes, v23-paletas (sobre la v22: padding 32 en todas las cajas, division de Bookings en la fila 3/4, titulos a 36, 115 a 208; paletas M, V y N). Antes, v22 (sobre la v21: retícula 12 x 6 en Bookings, serie 28/36/44/72/240, pesos 400/500/700, interlineados enteros, coral menos saturado, lo logrado de MAB en blanco, 115 proporcional). Un tono por caja de Bookings sobre la v20. Paleta B "pop claro" (eleccion de Caro, 30-09) sobre la v19: iconos por seccion, titulos mas vistosos y
+   estados en pill negro con icono del color del estado.
+
+   SISTEMA DE SIGNIFICADO (skill gestalt R03):
+   - Color del tile = estado. Azul = sobre la meta. Naranjo = bajo la meta.
+     Neutro = sin veredicto. Saturacion = jerarquia.
+   - Icono del estado (escala por avance, decision de Caro 30-09):
+     verde = sobre la meta, cumplida o sobre el ritmo; amarillo = en curso o
+     dato parcial (aun no se juzga); naranjo = bajo la meta, 80-99 %;
+     rojo = bajo la meta, menos de 80 %. Cada estado tiene ademas su forma
+     (flecha, check, reloj, medio circulo): nunca solo color.
+   - Lo logrado va en la tinta del tile; lo que falta, en pista tenue.
+   - En los graficos, el negro es la meta.
+   - Cada cifra vive bajo su %, y ninguna se repite.
+
+   ANATOMIA COMUN: arriba, titulo con icono y el pill de estado; abajo a la
+   izquierda, el % y su cifra; abajo a la derecha, el grafico y agosto.
+   ===================================================================== */
+:root {
+  --blue: #3a5ee8; --blue-tint: #ebeefa;
+  --orange: #e05c33;
+  --neutral: #2a2b30; --neutral-ink: #d6d7dc;
+  --white: #ffffff; --black: #0b0b0c; --muted: #a3a5ad; --lime: #d8fb70;
+  --ok: #3ddc84; --wait: #f5e27a; --warn: #ff9f43; --bad: #ff5a5f;
+  --font: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --gutter: 24px; --pad: 32px;
+}
+* { box-sizing: border-box; margin: 0; }
+
+/* ---- Paletas (html[data-p]). Cada una respeta: color del tile = estado; data = lo logrado;
+   track = lo que falta; meta = contraste con data y con el tile. ---- */
+html { --bg:#151617; --up:#3a5ee8; --up-inset:rgba(255,255,255,.12); --up-text:#fff; --up-data:#fff; --up-track:rgba(255,255,255,.28); --up-meta:#0b0b0c;
+  --up2:#ebeefa; --up2-text:#3a5ee8; --up2-data:#3a5ee8; --up2-meta:#0b0b0c;
+  --down:#e05c33; --down-text:#fff; --down-data:#fff; --down-track:rgba(255,255,255,.28);
+  --none:#2a2b30; --none-text:#d6d7dc; --live:#d8fb70; }
+/* A. Acido: indigo electrico, datos en lima, meta en rosado */
+html[data-p="a"] { --bg:#0b0b14; --up:#3a2cf0; --up-inset:rgba(255,255,255,.09); --up-text:#fff; --up-data:#d4ff3a; --up-track:rgba(255,255,255,.2); --up-meta:#ff5bd8;
+  --up2:#221a8f; --up2-text:#fff; --up2-data:#d4ff3a; --up2-meta:#ff5bd8;
+  --down:#ff5a36; --down-text:#1a0905; --down-data:#1a0905; --down-track:rgba(26,9,5,.2);
+  --none:#20212b; --none-text:#c9cad3; --live:#3ddc84; }
+/* B. Pop claro: tiles pastel, tinta profunda */
+html, html[data-p="b"] { --bg:#111214; --up:#c7d2ff; --up-inset:rgba(255,255,255,.45); --up-text:#1a1f8c; --up-data:#2f3bff; --up-track:rgba(26,31,140,.14); --up-meta:#0b0b0c;
+  --up2:#e7ecff; --up2-text:#1a1f8c; --up2-data:#2f3bff; --up2-meta:#0b0b0c;
+  --down:#d9623f; --down-text:#1a0905; --down-data:#ffffff; --down-track:rgba(26,9,5,.22);
+  --none:#2a2b30; --none-text:#d6d7dc; --live:#3ddc84; }
+/* C. Noche y cian: azul profundo, datos en cian, meta en amarillo lima */
+html[data-p="c"] { --bg:#070b16; --up:#123a9e; --up-inset:rgba(255,255,255,.07); --up-text:#fff; --up-data:#38e6ff; --up-track:rgba(255,255,255,.16); --up-meta:#f7ff5a;
+  --up2:#0d2667; --up2-text:#fff; --up2-data:#38e6ff; --up2-meta:#f7ff5a;
+  --down:#ff5a36; --down-text:#1a0905; --down-data:#1a0905; --down-track:rgba(26,9,5,.2);
+  --none:#1b1f2b; --none-text:#c9cdd8; --live:#3ddc84; }
+
+/* v21: cada caja de Bookings con su tono de la familia azul (pedido de Caro, 30-09).
+   Todas siguen siendo "sobre la meta" (familia azul); el tono separa las cajas.
+   Cada caja define su tinta (texto), dato (lo logrado), pista y meta para contrastar con su fondo. */
+.bk.bk { background: #151a70; }
+.qA { --up-inset:#2f3bff; --up-text:#ffffff; --up-data:#ffffff; --up-track:rgba(255,255,255,.28); --up-meta:#0b0b0c; }
+.qB { --up-inset:#e7ecff; --up-text:#1a1f8c; --up-data:#2f3bff; --up-track:rgba(26,31,140,.16); --up-meta:#0b0b0c; }
+.qC { --up-inset:#98a4ff; --up-text:#0f136b; --up-data:#0f136b; --up-track:rgba(15,19,107,.18); --up-meta:#0b0b0c; }
+.qD { --up-inset:#c7d2ff; --up-text:#1a1f8c; --up-data:#2f3bff; --up-track:rgba(26,31,140,.16); --up-meta:#0b0b0c; }
+.q { color: var(--up-text); }
+
+/* ---- v23: tres paletas nuevas. Mismo sistema: color del tile = estado (una familia para "sobre",
+   con un tono por caja), coral = bajo, neutro = sin veredicto; data = lo logrado; meta = un solo color. ---- */
+/* M. Menta */
+html[data-p="m"] { --bg:#0f1115; --up2:#e3f6ef; --up2-text:#0b3b33; --up2-data:#11836b; --up2-meta:#0b0b0c;
+  --down:#e0613f; --down-text:#1a0905; --down-data:#ffffff; --down-track:rgba(26,9,5,.22); --none:#2a2d34; --none-text:#d5d8de; --live:#3ddc84; }
+html[data-p="m"] .bk.bk { background:#0b3b33; }
+html[data-p="m"] .qA { --up-inset:#11836b; --up-text:#fff; --up-data:#fff; --up-track:rgba(255,255,255,.3); --up-meta:#0b0b0c; }
+html[data-p="m"] .qB { --up-inset:#e3f6ef; --up-text:#0b3b33; --up-data:#11836b; --up-track:rgba(11,59,51,.16); --up-meta:#0b0b0c; }
+html[data-p="m"] .qC { --up-inset:#7fd8be; --up-text:#073b31; --up-data:#073b31; --up-track:rgba(7,59,49,.18); --up-meta:#0b0b0c; }
+html[data-p="m"] .qD { --up-inset:#bfebdd; --up-text:#0b3b33; --up-data:#11836b; --up-track:rgba(11,59,51,.16); --up-meta:#0b0b0c; }
+/* V. Violeta de marca */
+html[data-p="v"] { --bg:#110f17; --up2:#f1e9ff; --up2-text:#2a1260; --up2-data:#812df2; --up2-meta:#0b0b0c;
+  --down:#e0613f; --down-text:#1a0905; --down-data:#ffffff; --down-track:rgba(26,9,5,.22); --none:#2a2b31; --none-text:#d6d4de; --live:#3ddc84; }
+html[data-p="v"] .bk.bk { background:#2a1260; }
+html[data-p="v"] .qA { --up-inset:#812df2; --up-text:#fff; --up-data:#fff; --up-track:rgba(255,255,255,.3); --up-meta:#0b0b0c; }
+html[data-p="v"] .qB { --up-inset:#f1e9ff; --up-text:#2a1260; --up-data:#812df2; --up-track:rgba(42,18,96,.14); --up-meta:#0b0b0c; }
+html[data-p="v"] .qC { --up-inset:#c9a6ff; --up-text:#230f52; --up-data:#230f52; --up-track:rgba(35,15,82,.18); --up-meta:#0b0b0c; }
+html[data-p="v"] .qD { --up-inset:#e2d2ff; --up-text:#2a1260; --up-data:#812df2; --up-track:rgba(42,18,96,.14); --up-meta:#0b0b0c; }
+/* N. Noche y lima */
+html[data-p="n"] { --bg:#090b10; --up2:#1a2238; --up2-text:#ffffff; --up2-data:#c6f24e; --up2-meta:#ffffff;
+  --down:#ff7a59; --down-text:#1a0905; --down-data:#1a0905; --down-track:rgba(26,9,5,.2); --none:#22252d; --none-text:#c9ccd4; --live:#3ddc84; }
+html[data-p="n"] .bk.bk { background:#0d1322; }
+html[data-p="n"] .qA { --up-inset:#1f2d52; --up-text:#fff; --up-data:#c6f24e; --up-track:rgba(255,255,255,.18); --up-meta:#ffffff; }
+html[data-p="n"] .qB { --up-inset:#172241; --up-text:#fff; --up-data:#c6f24e; --up-track:rgba(255,255,255,.16); --up-meta:#ffffff; }
+html[data-p="n"] .qC { --up-inset:#27386a; --up-text:#fff; --up-data:#c6f24e; --up-track:rgba(255,255,255,.18); --up-meta:#ffffff; }
+html[data-p="n"] .qD { --up-inset:#2f4480; --up-text:#fff; --up-data:#c6f24e; --up-track:rgba(255,255,255,.18); --up-meta:#ffffff; }
+
+/* R. Referencia de Caro (30-09): negro, tiles pop con texto negro, tarjetas negras con borde blanco.
+   Color del tile = estado, con la misma escala que los iconos: lima = sobre, amarillo = en curso o parcial,
+   rosado = bajo la meta. Cajas de grafico en negro. Lo logrado va en relleno; la meta, en linea o contorno. */
+html:root { --bg:#050505; --ok:#8be26f; --wait:#f4ee5c; --warn:#ffa24c; --bad:#f07fb6;
+  --up2:#8be26f; --up2-text:#0b0b0b; --up2-data:#0b0b0b; --up2-meta:#0b0b0b;
+  --down:#f07fb6; --down-text:#0b0b0b; --down-data:#0b0b0b; --down-track:rgba(11,11,11,.18);
+  --none:#f4ee5c; --none-text:#0b0b0b; --live:#8be26f; }
+html .bk.bk { background: #161618; box-shadow: none; }
+html .qA { --up-inset:#8be26f; --up-text:#0b0b0b; --up-data:#0b0b0b; --up-track:rgba(11,11,11,.18); --up-meta:#0b0b0b; }
+html .qB, html .qD { --up-inset:#26272b; --up-text:#ffffff; --up-data:#8be26f; --up-track:rgba(255,255,255,.18); --up-meta:#ffffff; box-shadow: none; }
+html .qC { --up-inset:#f4ee5c; --up-text:#0b0b0b; --up-data:#0b0b0b; --up-track:rgba(11,11,11,.16); --up-meta:#0b0b0b; }
+html .pill { box-shadow: none; }
+html .pairs i:first-of-type { background: transparent !important; box-shadow: inset 0 0 0 3px #0b0b0b; }
+/* v26: paleta de la lamina de Caro (30-09). Verde = sobre (aqua como par para NMC), amarillo = en curso
+   o parcial, naranjo = 80-99 %, rojo = bajo 80 %. Fondo cafe oscuro, crema para la meta y el texto claro. */
+html:root { --bg:#23190e; --white:#f8f3e0; --black:#17100a; --muted:#cfc6b0;
+  --ok:#31db92; --wait:#ffd93b; --warn:#ff8b0d; --bad:#ff5831;
+  --up2:#96deea; --up2-text:#23190e; --up2-data:#23190e; --up2-meta:#23190e;
+  --down:#ff5831; --down-text:#23190e; --down-data:#23190e; --down-track:rgba(35,25,14,.22);
+  --none:#ffd93b; --none-text:#23190e; --live:#31db92; }
+html .bk.bk { background: #2e2317; }
+html .qA { --up-inset:#31db92; --up-text:#23190e; --up-data:#23190e; --up-track:rgba(35,25,14,.18); --up-meta:#23190e; }
+html .qB, html .qD { --up-inset:#3d3022; --up-text:#f8f3e0; --up-data:#31db92; --up-track:rgba(248,243,224,.18); --up-meta:#f8f3e0; }
+html .qC { --up-inset:#ffd93b; --up-text:#23190e; --up-data:#23190e; --up-track:rgba(35,25,14,.16); --up-meta:#23190e; }
+html .pairs i:first-of-type { box-shadow: inset 0 0 0 3px #23190e; }
+/* v28: cajas de grafico en crema (#F8F3E0, par claro de la lamina) con barras cafe; la meta en azul
+   #1569FF, que no es color de estado. Tiles de estado con los colores vivos de la lamina. */
+html .qB, html .qD { --up-inset:#f8f3e0; --up-text:#23190e; --up-data:#23190e; --up-track:rgba(35,25,14,.14); --up-meta:#1569ff; }
+
+
+html, body { height: 100%; background: var(--bg); overflow: hidden; }
+body { font-family: var(--font); color: var(--white); font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+.fit { position: absolute; left: 50%; top: 50%; transform-origin: 0 0; }
+.screen { width: 1920px; height: 1080px; padding: 32px 96px; display: flex; flex-direction: column; gap: 40px; }
+.grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: 1fr 1fr 1.15fr 1.15fr 1fr 1fr; gap: var(--gutter); }
+
+/* Tipografia */
+.n240 { font-size: 160px; line-height: 128px; font-weight: 500; letter-spacing: -0.06em; font-feature-settings: "tnum" 0, "pnum" 1; margin-left: -6px; }
+.n80  { font-size: 72px;  line-height: 64px; font-weight: 500; letter-spacing: -0.05em; font-feature-settings: "tnum" 0, "pnum" 1; }
+.f32  { font-size: 36px;  line-height: 40px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; }
+.t24  { font-size: 28px;  line-height: 32px; font-weight: 600; white-space: nowrap; }
+.unit { font-size: .38em; position: relative; top: -1.15em; letter-spacing: 0; margin-left: 4px; }
+
+/* Titulos: icono + nombre, en negrita */
+.ttl { display: flex; align-items: center; gap: 8px; font-size: 32px; line-height: 44px; height: 44px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
+.ttl .ic { width: 32px; height: 32px; }
+.ttl--xl { font-size: 44px; }
+.ttl--xl .ic { width: 44px; height: 44px; }
+.ic { flex: none; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Pill de estado: negro, con icono del color del estado */
+.pill { display: inline-flex; align-items: center; gap: 12px; height: 44px; padding: 0 24px 0 8px; border-radius: 999px;
+        background: var(--black); color: var(--white); font-size: 28px; font-weight: 600; white-space: nowrap; align-self: flex-start; }
+.pill svg { width: 30px; height: 30px; flex: none; color: var(--s); }
+.s-ok   { --s: var(--ok); } .s-wait { --s: var(--wait); } .s-warn { --s: var(--warn); } .s-bad { --s: var(--bad); }
+
+/* Bloque */
+.blk { display: flex; flex-direction: column; justify-content: space-between; min-height: 0; }
+.head { display: flex; flex-direction: column; gap: 8px; }
+.foot-row { display: flex; justify-content: space-between; align-items: flex-end; }
+.fig { display: flex; flex-direction: column; gap: 4px; }
+.fig .n240 { margin: 24px 0 0; }
+
+/* Barras de avance */
+.bar { position: relative; height: 16px; border-radius: 10px; background: var(--up-track); margin-top: 8px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 10px; background: var(--up-data); }
+.bar > b { position: absolute; top: -8px; bottom: -8px; width: 6px; margin-left: -3px; border-radius: 3px; background: var(--up-meta); }
+.bar-lbl { position: relative; height: 32px; margin-top: 4px; }
+.bar-lbl span { position: absolute; top: 0; }
+
+/* ---------- Bookings Chile ---------- */
+.bk { grid-column: 1 / 8; grid-row: 1 / 7; display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid;
+      gap: var(--gutter); padding: 16px; border-radius: 40px; background: var(--up); color: var(--up-text); }
+.q { padding: 32px; border-radius: 24px; background: var(--up-inset); }
+.qA { grid-column: 1 / 4; grid-row: 1 / 4; } .qB { grid-column: 4 / 8; grid-row: 1 / 4; display: flex; flex-direction: column; }
+.qC { grid-column: 1 / 4; grid-row: 4 / 7; } .qD { grid-column: 4 / 8; grid-row: 4 / 7; }
+.qC .fig, .qD .fig { gap: 4px; }
+.plot { flex: 1; min-height: 0; margin-top: 24px; }
+.plot svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* ---------- KPI ---------- */
+.kpi { grid-column: 8 / 13; border-radius: 40px; padding: 48px var(--pad) 24px; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; column-gap: 24px; }
+.kpi-1 { grid-row: 1 / 3; } .kpi-2 { grid-row: 3 / 5; } .kpi-3 { grid-row: 5 / 7; }
+.kpi .head { grid-column: 1 / -1; grid-row: 1; }
+.kpi .fig { grid-column: 1; grid-row: 2; align-self: end; }
+.kpi .side { grid-column: 2; grid-row: 1 / 3; align-self: end; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.kpi .side--ring { align-self: center; }
+.k-down { background: var(--down); color: var(--down-text); }
+.k-up-2 { background: var(--up2); color: var(--up2-text); }
+.k-none { background: var(--none); color: var(--none-text); }
+.pairs { display: grid; grid-template-columns: auto 200px; column-gap: 16px; row-gap: 12px; align-items: center; }
+.pairs i { display: block; height: 24px; border-radius: 8px; }
+
+.foot { display: flex; justify-content: space-between; align-items: center; }
+.muted { color: var(--muted); }
+.live { display: inline-flex; align-items: center; gap: 16px; }
+.live::before { content: ""; width: 20px; height: 20px; border-radius: 999px; background: var(--live); }
+
+/* v29: paleta de Caro (slate #6666FF, periwinkle #B8BAFF, columbia #C9E8FF, rich black #0C0C16, celadon #B9F0D7).
+   Celadon = sobre; periwinkle = en curso o parcial; slate = bajo (unica superficie saturada); columbia = cajas de grafico. */
+html:root { --bg:#0c0c16; --white:#ffffff; --black:#0c0c16; --muted:#b8baff;
+  --ok:#b9f0d7; --wait:#b8baff; --warn:#c9e8ff; --bad:#6666ff;
+  --up2:#b9f0d7; --up2-text:#0c0c16; --up2-data:#0c0c16; --up2-meta:#0c0c16;
+  --down:#6666ff; --down-text:#ffffff; --down-data:#ffffff; --down-track:rgba(255,255,255,.3);
+  --none:#b8baff; --none-text:#0c0c16; --live:#b9f0d7; }
+html .bk.bk { background: rgba(184,186,255,.08); }
+html .qA { --up-inset:#b9f0d7; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); --up-meta:#0c0c16; }
+html .qB, html .qD { --up-inset:#c9e8ff; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.14); --up-meta:#6666ff; }
+html .qC { --up-inset:#b8baff; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); --up-meta:#0c0c16; }
+html .pairs i:first-of-type { box-shadow: inset 0 0 0 3px #0c0c16; }
+html .pill { background: #0c0c16; }
+/* v29: titulos mas grandes (Caro: "demasiado pequenos"); un escalon claro sobre el pill de 28 */
+.ttl { font-size: 40px; line-height: 48px; height: 48px; gap: 12px; } /* v30: 40 px, pedido de Caro */
+.ttl .ic { width: 40px; height: 40px; }
+/* v29: blanco sobre slate da 4,28:1; rich black da 4,54:1 (AA) */
+html:root { --down-text:#0c0c16; --down-data:#0c0c16; --down-track:rgba(12,12,22,.22); }
+/* v29: la caja del 115 y la de Hoy pasan de 3 a 4 columnas para que "Bookings Chile" quepa a 48 px (decision de Caro) */
+.qA { grid-column: 1 / 5; } .qB { grid-column: 5 / 8; } .qC { grid-column: 1 / 5; } .qD { grid-column: 5 / 8; }
+/* v31: el tamano de cada caja sigue el orden de relevancia (decision de Caro, 30-09):
+   1 Bookings del mes, 2 grafico acumulado, 3 MAB, 4 NMC, 5 Ano, 6 Hoy, 7 Signups.
+   Layout A: arriba, el 115 y el grafico en 4 filas; abajo, Hoy y Ano en 2 filas.
+   A la derecha, MAB 3 filas, NMC 2 y Signups 1. Las dos filas de abajo son un poco mas altas
+   para que Hoy, Ano y Signups quepan sin apretarse. */
+.grid { grid-template-rows: 1fr 1fr 1fr 1fr 1.4fr 1.4fr; }
+/* el 115 es lo mas relevante: con 4 columnas sube de 160 a 200 */
+.n240 { font-size: 200px; line-height: 160px; }
+.qA { grid-column: 1 / 5; grid-row: 1 / 5; } .qB { grid-column: 5 / 8; grid-row: 1 / 5; }
+.qC { grid-column: 1 / 5; grid-row: 5 / 7; } .qD { grid-column: 5 / 8; grid-row: 5 / 7; }
+.kpi-1 { grid-row: 1 / 4; } .kpi-2 { grid-row: 4 / 6; } .kpi-3 { grid-row: 6 / 7; }
+.kpi-3 { padding: 24px var(--pad); }
+.kpi-3 .head { grid-column: 1; grid-row: 1 / 3; }
+.kpi-3 .fig { grid-column: 2; grid-row: 1 / 3; align-self: end; }
+/* v32: etiquetas (pills). El icono del pill vuelve a la escala de estado que decidio Caro (30-09):
+   verde = sobre, cumplida o sobre el ritmo; amarillo = en curso o dato parcial; naranjo = bajo 80-99 %;
+   rojo = bajo menos de 80 %. Los tonos son los de su lamina anterior; el resto de la paleta no cambia. */
+html:root { --ok:#31db92; --wait:#ffd93b; --warn:#ff8b0d; --bad:#ff5831; }
+/* Posicion: el pill se separa del titulo (de 6 a 16 px) y comparte sus columnas: el centro del icono
+   del pill cae sobre el centro del icono del titulo y su texto arranca donde arranca el del titulo. */
+.head { gap: 12px; }
+.pill { padding-left: 5px; gap: 17px; }
+/* NMC tiene 2 filas y quedaba con 15 px entre pill y cifra; con 40/20 de padding queda en 27, como Hoy y Ano */
+.kpi-2 { padding-top: 40px; padding-bottom: 20px; }
+/* v33: la comparacion con agosto va bajo el pill (pedido de Caro). Es parte del estado, no de la cifra:
+   el pill dice como vamos contra la meta y la linea de abajo, contra el mes anterior.
+   Su texto arranca en la columna del texto del titulo y del pill (x 196). */
+.cmp { padding-left: 52px; margin-top: -4px; }
+/* las cabeceras crecen 36 px: la fila 4 (la de NMC) sube y las filas 1-3 bajan, sin tocar Hoy y Ano */
+.grid { grid-template-rows: 107fr 107fr 107fr 159fr 172fr 172fr; }
+/* v34: la comparacion usa las dos columnas del pill: la flecha centrada bajo el icono del pill (x 164)
+   y la cifra donde arranca el texto del pill (x 196). Antes la flecha arrancaba en la columna del texto. */
+.cmp { padding-left: 0; display: flex; align-items: baseline; }
+.cmp-ar { flex: none; width: 40px; text-align: center; margin-right: 12px; }
+/* ===== v35 =====
+   1) Color de caja libre (decision de Caro, 01-10): el estado lo dicen solo el pill y su icono; el color
+      de la caja diferencia cajas. Claras y oscuras se alternan para que contrasten entre si.
+      Paleta de Caro + un acento coral #FF8F7A (permitido por Caro, 01-10).
+      Bookings en damero: 115 celadon (claro) | Mes slate (oscuro) / Hoy periwinkle (medio) | Ano columbia (claro).
+      Derecha: MAB coral, NMC celadon, Signups periwinkle. Los colores que se repiten unen cajas con el
+      mismo estado (115 y NMC sobre la meta a hoy; Hoy y Signups aun en curso o parciales).
+   2) NMC: una sola lectura. La cifra y su fraccion en una linea, y debajo la misma barra que Hoy y Ano,
+      llena, con la marca de la meta a hoy. Salen las dos barras pareadas, que repetian el 154 %. */
+html .qA { --up-inset:#b9f0d7; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); --up-meta:#0c0c16; }
+html .qB { --up-inset:#6666ff; --up-text:#ffffff; --up-data:#ffffff; --up-track:rgba(255,255,255,.32); --up-meta:#b9f0d7; }
+html .qC { --up-inset:#b8baff; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); --up-meta:#0c0c16; }
+html .qD { --up-inset:#c9e8ff; --up-text:#0c0c16; --up-data:#0c0c16; --up-track:rgba(12,12,22,.14); --up-meta:#0c0c16; }
+html:root { --down:#ff8f7a; --down-text:#0c0c16; --down-data:#0c0c16; --down-track:rgba(12,12,22,.2);
+  --up2:#b9f0d7; --up2-text:#0c0c16; --none:#b8baff; --none-text:#0c0c16; }
+.kpi-2 { --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); --up-meta:#6666ff; }
+.kpi-2 .fig { grid-column: 1 / -1; align-self: end; gap: 0; }
+.nmc-row { display: flex; align-items: baseline; gap: 24px; }
+.nmc-fig .bar { margin-top: 24px; }
+/* NMC necesita 40 px mas para la barra con su marca; se los quita a MAB, que tenia 113 px libres.
+   El alto de Bookings arriba no cambia (las filas 1-4 suman lo mismo). */
+.grid { grid-template-rows: 94fr 94fr 94fr 198fr 172fr 172fr; }
+/* la marca de la meta en NMC: un corte del color de la caja en la barra negra, y un tick negro que baja
+   hasta su rotulo (el slate sobre negro casi no se veia) */
+/* ===== v36: correcciones de la auditoria orquestada de la v34 que no chocan con decisiones de Caro =====
+   Se mantiene el color libre de la v35 (Caro, 01-10). No se aplica la marca de ritmo: Caro la saco en la v22. */
+/* fraccion de 36 a 32 (competia con los titulos de 40); el % nunca bajo 28 px */
+.f32 { font-size: 32px; line-height: 40px; }
+.n80 .unit { font-size: 28px; top: -1.1em; }
+/* padding unico de 32 en todos los tiles; la altura la resuelven las filas */
+.kpi, .kpi-2, .kpi-3 { padding: var(--pad); }
+/* la columna derecha se alinea al borde interior de Bookings (antes desfasada 16 px arriba y abajo) */
+.kpi-1 { margin-top: 16px; } .kpi-3 { margin-bottom: 16px; }
+.grid { grid-template-rows: 88fr 88fr 88fr 216fr 154fr 190fr; }
+/* marco de Bookings visible (antes 1,1:1 contra el fondo) */
+html .bk.bk { background: rgba(184,186,255,.16); }
+/* track del anillo de MAB mas visible: se ve el 25 % que falta (decision de Caro en el gate) */
+html:root { --down-track:rgba(12,12,22,.34); }
+/* texto claro sobre slate: un poco de aire entre letras (Lupton B11) */
+/* Signups: la cifra comparte la linea base del texto del pill (Lupton B08; antes 9 px mas abajo, "casi") */
+.kpi-3 .fig { margin-bottom: 9px; }
+/* ===== v37: vuelta 2 de la auditoria orquestada + D35, D36 y D38 ===== */
+/* D35 + D38: "Bookings Chile" rotula el grupo dentro del marco, arriba; el 115 y el grafico son un solo tile "Mes" */
+.bk { position: relative; padding-top: 96px; }
+.bk-ttl { position: absolute; top: 32px; left: 48px; color: #ffffff; }
+.qM { grid-column: 1 / 8; grid-row: 1 / 5; display: grid; grid-template-columns: subgrid; grid-template-rows: 1fr; }
+.m-left { grid-column: 1 / 5; min-height: 0; }
+.qM .plot { grid-column: 5 / 8; margin-top: 0; padding-left: 32px; min-height: 0; }
+.qM .n240 { font-size: 176px; line-height: 140px; margin-top: 16px; }
+html .qM { --up-inset:#6666ff; --up-text:#ffffff; --up-data:#ffffff; --up-track:rgba(255,255,255,.32); --up-meta:#b9f0d7; }
+/* el marco y la columna derecha comparten bordes exteriores */
+.kpi-1 { margin-top: 0; } .kpi-3 { margin-bottom: 0; }
+/* el rotulo del grupo queda a la altura del titulo de MAB (los dos nombran secciones de primer nivel) */
+.grid { grid-template-rows: 92fr 92fr 92fr 212fr 168fr 168fr; }
+/* D36: comparacion con signo y sin flecha, con su texto en la columna del texto del pill */
+.cmp { display: block; padding-left: 52px; margin-top: -4px; }
+/* un solo estilo para el nivel de detalle (fraccion, comparacion y rotulo del %) */
+.det { font-size: 32px; line-height: 40px; font-weight: 500; letter-spacing: 0; white-space: nowrap; }
+/* tracking: los pills con +0,02 em */
+.pill { letter-spacing: .02em; }
+/* MAB: lo logrado en blanco (D24), track a 3,6:1 sobre el coral (D14), fraccion bajo el anillo */
+html:root { --down-data:#ffffff; --down-track:rgba(12,12,22,.58); }
+.kpi-1 .side { grid-row: 1 / 3; align-self: center; align-items: center; gap: 8px; }
+/* NMC: la barra llena es la meta a hoy cumplida, como en Hoy y Año el final de la barra es la meta */
+/* el % hereda el interlineado de su cifra y estiraba la linea (179 px en vez de 140): no aporta altura */
+.unit { line-height: 0; }
+/* el lado del 115 ocupa 3 columnas y el grafico 4: el acumulado es lo segundo en relevancia (D33) */
+.m-left { grid-column: 1 / 4; } .qM .plot { grid-column: 4 / 8; }
+/* Signups: con la nueva altura, la cifra vuelve a la linea base del pill */
+.kpi-3 .fig { margin-bottom: 3px; }
+/* ===== v38: fuera el texto que no sirve (Caro, 01-10): "de la meta a hoy", "registros",
+   "1 sep" y "30 sep" del grafico, y "vs. agosto" del pie (cada tarjeta ya lo dice) ===== */
+.kpi-3 .fig { margin-bottom: 5px; } /* sin "registros", la cifra se recoloca en la linea base del pill */
+/* ===== v39: vuelta 3 (D42-D45) ===== */
+/* 1) area segun relevancia (D33): MAB mas alto que NMC; Mes no cambia */
+.grid { grid-template-rows: 112fr 112fr 112fr 144fr 176fr 168fr; }
+/* D44: Año 4 columnas, Hoy 3 */
+.qC { grid-column: 1 / 4; } .qD { grid-column: 4 / 8; }
+/* 5) fracciones: numerador semibold, "/ meta" en regular y tinta secundaria */
+.frac b { font-weight: 600; }
+.frac .den { font-weight: 400; }
+/* 2) barras: la escala llega al mayor entre lo logrado y la meta; la marca es la meta, en las tres.
+   La marca sobresale de la barra y lleva un halo del color de la caja para separarse del relleno. */
+.bar { margin-top: 16px; }
+.bar > b { top: -8px; bottom: -8px; width: 6px; margin-left: -3px; border-radius: 3px; background: #0c0c16; }
+.bar > b.meta-end { left: calc(100% - 3px); }
+/* D43: en el anillo, lo logrado oscuro (como en las barras) y el resto claro */
+html:root { --down-data:#0c0c16; --down-track:rgba(255,255,255,.55); }
+/* 4) MAB: el anillo llena el alto de la caja, con su fraccion debajo; el sobrante queda en un solo lugar, bajo la cabecera */
+.kpi-1 .side { grid-row: 1 / 3; align-self: stretch; justify-content: space-between; gap: 8px; }
+/* ===== v40: columna derecha en dos columnas (Caro: "muy apretado", falta diagramacion, espaciado y jerarquia).
+   Cabecera a la izquierda y cifra a la derecha, arriba, alineadas a un mismo borde: las cifras de MAB, NMC y
+   Signups forman una columna propia y ya no quedan aplastadas bajo la cabecera de tres lineas.
+   Jerarquia: las cifras de la derecha a 96 (relevancia 3, 4 y 7), sobre las de Hoy y Año a 72 y bajo el 115.
+   Alto por relevancia: MAB 352, NMC 336, Signups 208; Mes y Hoy/Año no cambian. ===== */
+.grid { grid-template-rows: 101fr 101fr 102fr 176fr 136fr 208fr; }
+html .kpi { display: grid; grid-template-columns: 1fr auto; grid-template-rows: 1fr auto; column-gap: 32px; row-gap: 0; }
+html .kpi .head { grid-column: 1; grid-row: 1; align-self: start; }
+html .kpi .fig-r { grid-column: 2; grid-row: 1 / 3; align-self: start; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; margin: 0; }
+html .kpi-2 .fig-r { grid-row: 1; }
+html .kpi .kbar { grid-column: 1 / -1; grid-row: 2; align-self: end; margin-top: 0; }
+.n96 { font-size: 96px; line-height: 80px; font-weight: 500; letter-spacing: -0.05em; font-feature-settings: "tnum" 0, "pnum" 1; }
+.n96 .unit { font-size: 32px; top: -1.25em; }
+/* la cifra arranca a la altura del titulo (su cara de 96 sobre el alto de 48 del titulo) */
+html .kpi-2 .fig-r, html .kpi-3 .fig-r { padding-top: 0; }
+/* NMC: el titulo es largo y no deja lugar a la cifra al lado. El titulo ocupa todo el ancho y la cifra baja
+   junto al pill y la comparacion; la barra queda abajo, a todo el ancho. */
+html .kpi-2 { grid-template-rows: auto auto auto 1fr; row-gap: 12px; }
+html .kpi-2 .head { display: contents; }
+html .kpi-2 .ttl { grid-column: 1 / -1; grid-row: 1; }
+html .kpi-2 .pill { grid-column: 1; grid-row: 2; }
+html .kpi-2 .cmp { grid-column: 1; grid-row: 3; align-self: start; }
+html .kpi-2 .fig-r { grid-column: 2; grid-row: 2 / 4; }
+html .kpi-2 .kbar { grid-row: 4; }
+html .kpi-2 { grid-template-rows: auto auto auto 1fr auto; }
+html .kpi-2 .pill { justify-self: start; }
+html .kpi-2 .fig-r { grid-row: 2 / 5; }
+html .kpi-2 .kbar { grid-row: 5; }
+/* ===== v41: vuelta 4 (D47-D49) ===== */
+/* 2) NMC: hasta la meta en tinta plena y lo que la pasa en el mismo tono mas claro; la meta con la misma marca de Hoy y Año */
+.bar > i.over { left: auto; background: rgba(12,12,22,.42); border-radius: 0 10px 10px 0; }
+.kpi-2 .bar > i:first-child { border-radius: 10px 0 0 10px; }
+/* 4) NMC: la barra a la misma distancia de la fraccion que en Hoy y Año; el sobrante abajo */
+html .kpi-2 { grid-template-rows: auto auto auto auto 1fr; }
+html .kpi-2 .fig-r { grid-row: 2 / 4; }
+html .kpi-2 .kbar { grid-row: 4; align-self: start; margin-top: 8px; }
+/* NMC: pill y comparacion en un solo bloque (8 px entre ellos, como en Mes y MAB), al lado de la cifra */
+.pc { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+html .kpi-2 { grid-template-rows: auto auto auto 1fr; }
+html .kpi-2 .pc { grid-column: 1; grid-row: 2; align-self: start; }
+html .kpi-2 .fig-r { grid-row: 2; }
+html .kpi-2 .kbar { grid-row: 3; }
+/* ===== v42: D50-D55 y vuelta 5 ===== */
+/* D56: la columna derecha necesita 961 px (MAB 288 con el anillo de 224, NMC 327, Signups 298, 2 separaciones)
+   y la grilla daba 944. La separacion grilla-pie baja de 40 a 24 y las filas se fijan en px efectivos:
+   la fila 1 tiene un minimo de 96 (el rotulo del grupo), MAB 288, Mes 440 + 72 - 96, NMC 335, Signups 289. */
+.screen { gap: 24px; }
+.grid { grid-template-rows: 96fr 72fr 72fr 200fr 111fr 289fr; } /* D56: 54 px de MAB pasan a Signups; Mes, NMC y Hoy no cambian */
+/* fila de cifra: fraccion a la izquierda (columna de iconos), % a la derecha (borde interior), misma linea base */
+.figrow { display: flex; justify-content: space-between; align-items: baseline; }
+/* D50 NMC: titulo, pill y comparacion arriba; cifra y barra abajo, la barra a 32 px del borde */
+html .kpi-2 { grid-template-rows: auto auto 1fr auto auto; }
+html .kpi-2 .figrow, html .kpi-3 .figrow { grid-column: 1 / -1; grid-row: 4; }
+html .kpi .kbar { grid-column: 1 / -1; grid-row: 5; align-self: end; margin-top: 20px; }
+/* D52 Signups: titulo y pill en una linea (no cabe otra fila sin pasar el area de Hoy, D33) */
+html .kpi-3 { grid-template-rows: auto 1fr auto auto; }
+html .kpi-3 .head { grid-column: 1 / -1; grid-row: 1; flex-direction: row; align-items: center; gap: 24px; }
+html .kpi-3 .figrow { grid-row: 3; }
+html .kpi-3 .kbar { grid-row: 4; }
+/* D51 MAB: fraccion a la izquierda, con su linea base en la base del anillo */
+html .kpi-1 .fig-r { grid-column: 2; grid-row: 1 / 3; align-self: end; }
+html .kpi-1 .mab-frac { grid-column: 1; grid-row: 2; align-self: end; }
+/* D53 + D55: lo que pasa la meta en el mismo negro, con trama */
+.bar > i.over { background: repeating-linear-gradient(-45deg, #0c0c16 0 7px, rgba(185,240,215,.7) 7px 10px); }
+/* 7) texto claro sobre fondo oscuro o slate: +0,02 em (un solo valor) */
+.bk-ttl, .qM .ttl, .qM .det, #chart text, .foot .t24 { letter-spacing: .02em; }
+/* 8) pie a 28/500 */
+.foot .t24 { font-weight: 500; }
+/* NMC: sin el row-gap de 12 de la v40 (5 filas = 48 px); el pill se separa del titulo con su propio margen */
+html .kpi-2 { row-gap: 0; }
+html .kpi-2 .pc { margin-top: 12px; }
+/* Signups: la barra con la misma tinta que Hoy y Año */
+.kpi-3 { --up-data:#0c0c16; --up-track:rgba(12,12,22,.16); }
+/* MAB: la linea base de la fraccion en la base del anillo (borde exterior del trazo) */
+html .kpi-1 .mab-frac { margin-bottom: -5px; }
+/* ===== v43: D56. En Signups el pill vuelve bajo el titulo, en su columna (D12) ===== */
+html .kpi-3 .head { flex-direction: column; align-items: stretch; gap: 12px; }
+html .kpi-3 .head .pill { align-self: flex-start; }
+/* ===== v44: D57. El tamano de cada modulo lo define su contenido; el orden de lectura no cambia.
+   Hoy y Año piden 336 (32 + titulo y pill 104 + 24 + cifra, fraccion y barra 144 + 32): los 72 px
+   que les sobraban pasan a Mes (416 -> 488, grafico 352 -> 424). La columna derecha no cambia:
+   MAB filas 1-3 (288), NMC filas 4-5 (272 + 24 + 39 = 335), Signups fila 6 (289).
+   D58: el 115 sube a 232 (el maximo con "115 %" en una linea dentro de sus 3 columnas, D47), con el
+   interlineado proporcional de la v43 (140/176 -> 185). El aire sobre el queda en unos 43 px, no en 24. ===== */
+.grid { grid-template-rows: 96fr 72fr 72fr 272fr 39fr 289fr; }
+.qM .n240 { font-size: 232px; line-height: 185px; }
+/* ===== v45: D59 y D60 ===== */
+/* D59: la comparacion con agosto arranca en el borde izquierdo del pill (Mes, MAB y NMC), no en la columna
+   de su texto. El "+" de Geist tiene 1,3 px de aire a la izquierda: -1 px pone la tinta en el borde del pill. */
+.cmp { padding-left: 0; margin-left: -1px; }
+/* ===== v46: D61 y D62 (feedback de Luci) ===== */
+/* D61: pill con fondo rich black al 20 % y texto rich black (en Mes, sobre slate, texto blanco). El icono
+   invierte: circulo rich black solido y glifo en el color de estado de D11 (ver los symbol e-*). */
+html .pill { background: rgba(12,12,22,.2); color: #0c0c16; }
+html .qM .pill { color: #ffffff; }
+/* D62: la bajada (comparacion con agosto) en peso 400, mismo cuerpo */
+.cmp { font-weight: 400; }
+/* ===== v47: D63. Los siete titulos a 800, el maximo que carga el link de Geist (wght@300..800); 40/48 (D18) ===== */
+.ttl { font-weight: 800; }
+/* ===== v48: D64. Titulos a 44 px; la caja y el interlineado siguen en 48 para no cambiar la altura de ninguna
+   tarjeta. El icono sigue en 40, centrado con el texto (align-items: center). ===== */
+.ttl { font-size: 44px; line-height: 48px; height: 48px; }
+/* ===== v49: D65. Tipografia en escala 1,25 desde 28 (28, 35, 44, 55, 69, 86, 107, 134, 168, 210) y espaciados en
+   base 8 (8, 16, 24, 32, 48, 64). Interlineados en la misma proporcion que antes. D66: anillo 223, grupo-Mes 24, leyenda 16/8. ===== */
+.qM .n240 { font-size: 210px; line-height: 167px; }        /* 185/232 x 210 */
+.qM .n240 .unit { font-size: 86px; }                         /* 4 pasos abajo */
+.n96 { font-size: 86px; line-height: 71px; }                 /* D66: 71 (80/96 x 86 = 71,7) */
+.n96 .unit { font-size: 35px; }
+.n80 { font-size: 69px; line-height: 61px; }                 /* 64/72 x 69 */
+.n80 .unit { font-size: 28px; }
+.det { font-size: 35px; line-height: 44px; }                 /* 40/32 x 35 */
+/* espacios: titulo-pill 16, pill-bajada 8, cifra-fraccion 8, fraccion-barra 16 */
+.head, html .kpi-3 .head { gap: 16px; }
+html .kpi-2 .pc { margin-top: 16px; }
+.cmp { margin-top: -8px; } .pc { gap: 8px; } .pc .cmp { margin-top: 0; }   /* pill-bajada 8 */
+.fig, .qC .fig, .qD .fig { gap: 8px; }
+.qC .bar, .qD .bar { margin-top: 8px; }
+/* D66: titulo del grupo-Mes a 24 (opcion B); aire bajada-115 a 32 */
+.bk { padding-top: 104px; }
+/* filas: MAB 32-319 (287, anillo 223), Mes 136-611 (475), NMC 343-683 (340, r = 8), Hoy y Año 635-976 (341), Signups 707-992 (285, p = 16) */
+.grid { grid-template-rows: 96px 72px 71px 268px 48px 285px; } /* px: con fr, los minimos de contenido de las filas que abarcan descuadraban el reparto */
+html .kpi .kbar { margin-top: 16px; }
+/* ===== v50: D68. La comparacion con agosto pasa a ser una segunda etiqueta con el formato del pill de estado
+   (mismo fondo, alto, padding, radio, 28/600 y tracking; sin icono, D36), apilada 8 bajo el pill y en su borde izquierdo.
+   Reemplaza la bajada 35/400 (D62, D65). Mismo alto que la bajada (44): los espacios de D65/D66 no cambian. ===== */
+.head .cmpx { margin-top: -8px; }   /* .head tiene gap 16: la etiqueta queda a 8 del pill */
+.pc .cmpx { margin-top: 0; }        /* en NMC, .pc ya tiene gap 8 */
+/* D69: la etiqueta de comparacion no lleva icono: aire simetrico de 24 (la de estado conserva 5/24 por D12) */
+html .pill.cmpx { padding-left: 24px; padding-right: 24px; }
+/* ===== v52: D71. El rotulo del grupo "Bookings Chile" en peso 400 (44, mismo color e icono); los otros seis titulos siguen en 800 ===== */
+.ttl.bk-ttl { font-weight: 400; }
+/* ===== v57: D77 (corrige D76). En Mes solo el titulo y su icono van en rich black; el resto vuelve a la v55.
+   La meta sigue en blanco (drawChart, META_C). ===== */
+.qM .ttl { color: #0c0c16; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <!-- iconos de seccion (trazo) -->
+  <symbol id="i-bookings" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></symbol>
+  <symbol id="i-month" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 16l4-5 3 3 5-7"/></symbol>
+  <symbol id="i-today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-year" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
+  <symbol id="i-app" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-new" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+  <symbol id="i-signup" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></symbol>
+  <!-- iconos de estado (D61): circulo rich black + glifo del color del estado (D11) -->
+  <symbol id="e-up" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#0c0c16"/><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M15 22V9M9.5 14.5L15 9l5.5 5.5"/></symbol>
+  <symbol id="e-down" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#0c0c16"/><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M15 8v13M9.5 15.5L15 21l5.5-5.5"/></symbol>
+  <symbol id="e-check" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#0c0c16"/><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M9 15.5l4 4 8-9"/></symbol>
+  <symbol id="e-clock" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#0c0c16"/><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M15 8.5V15l4.5 2.5"/></symbol>
+  <symbol id="e-half" viewBox="0 0 30 30"><circle cx="15" cy="15" r="15" fill="#0c0c16"/><circle fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" cx="15" cy="15" r="7"/><path d="M15 8a7 7 0 0 1 0 14z" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="fit" id="fit">
+<div class="screen">
+  <div class="grid">
+
+    <!-- ========== Bookings Chile ========== -->
+    <section class="bk" aria-labelledby="bk-t">
+      <h1 class="ttl bk-ttl" id="bk-t"><svg class="ic" aria-hidden="true"><use href="#i-bookings"/></svg>Bookings Chile</h1>
+
+      <div class="q qM">
+        <div class="m-left blk">
+          <div class="head">
+            <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-month"/></svg>Mes</h2>
+            <span class="pill s-ok"><svg aria-hidden="true"><use href="#e-check"/></svg>Meta cumplida</span>
+            <span class="pill cmpx">+12,8&nbsp;% vs.&nbsp;agosto</span>
+          </div>
+          <div class="fig">
+            <div class="n240">115<span class="unit">%</span></div>
+            <p class="det frac"><b>52.624</b><span class="den"> / 45.453</span></p>
+          </div>
+        </div>
+        <div class="plot"><svg id="chart" role="img" aria-label="Reservas acumuladas del mes contra el presupuesto acumulado. La meta del mes se cumplió el día 27."></svg></div>
+      </div>
+
+      <div class="q blk qC">
+        <div class="head">
+          <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-today"/></svg>Hoy</h2>
+          <span class="pill s-wait"><svg aria-hidden="true"><use href="#e-clock"/></svg>En curso</span>
+        </div>
+        <div class="fig">
+          <div class="n80">18<span class="unit">%</span></div>
+          <p class="det frac"><b>354</b><span class="den"> / 1.896</span></p>
+          <div class="bar" role="img" aria-label="18 % de la meta del dia"><i style="width:18.7%"></i><b class="meta-end"></b></div>
+        </div>
+      </div>
+
+      <div class="q blk qD">
+        <div class="head">
+          <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-year"/></svg>Año</h2>
+          <span class="pill s-ok"><svg aria-hidden="true"><use href="#e-up"/></svg>Sobre el ritmo</span>
+        </div>
+        <div class="fig">
+          <div class="n80">78<span class="unit">%</span></div>
+          <p class="det frac"><b>78.400</b><span class="den"> / 100.000</span></p>
+          <div class="bar" role="img" aria-label="78 % de la meta del año"><i style="width:78.4%"></i><b class="meta-end"></b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MAB App: 75 %, bajo el 80 % -> rojo ========== -->
+    <article class="kpi kpi-1 k-down">
+      <div class="head">
+        <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-app"/></svg>MAB App</h2>
+        <span class="pill s-bad"><svg aria-hidden="true"><use href="#e-down"/></svg>Bajo la meta a&nbsp;hoy</span>
+        <span class="pill cmpx">+24,1&nbsp;% vs.&nbsp;agosto</span>
+      </div>
+      <div class="fig-r side--ring">
+        <svg class="ring" width="223" height="223" viewBox="0 0 220 220" role="img" aria-label="75 % de la meta a hoy">
+          <circle cx="110" cy="110" r="96" fill="none" style="stroke:var(--down-track)" stroke-width="22"/>
+          <circle cx="110" cy="110" r="96" fill="none" style="stroke:var(--down-data)" stroke-width="22" stroke-dasharray="452.4 603.2" transform="rotate(-90 110 110)"/>
+          <!-- D60: x e y centran la tinta de "75 %" (numero y % juntos) en el centro del anillo, medida en pantalla -->
+          <text x="110.94" y="145" text-anchor="middle" style="fill:var(--down-text);font-feature-settings:'tnum' 0,'pnum' 1" font-family="Geist, Helvetica Neue, Arial, sans-serif" font-size="84.843" font-weight="500" letter-spacing="-4.03">75<tspan font-size="34.529" dy="-46.6" dx="3" letter-spacing="0">%</tspan></text>
+        </svg>
+      </div>
+      <p class="det frac mab-frac"><b>6.997</b><span class="den"> / 9.209</span></p>
+    </article>
+
+    <!-- ========== New Market Customers ========== -->
+    <article class="kpi kpi-2 k-up-2">
+      <div class="head">
+        <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-new"/></svg>New Market Customers</h2>
+        <div class="pc">
+          <span class="pill s-ok"><svg aria-hidden="true"><use href="#e-up"/></svg>Sobre la meta a&nbsp;hoy</span>
+          <span class="pill cmpx">+7,1&nbsp;% vs.&nbsp;agosto</span>
+        </div>
+      </div>
+      <div class="figrow">
+        <p class="det frac"><b>17.030</b><span class="den"> / 10.999</span></p>
+        <div class="n96">154<span class="unit">%</span></div>
+      </div>
+      <div class="bar kbar" role="img" aria-label="Llevamos 154 % de la meta a hoy"><i style="width:64.6%"></i><i class="over" style="left:64.6%;width:35.4%"></i><b style="left:64.6%"></b></div>
+    </article>
+
+    <!-- ========== Signups App ========== -->
+    <article class="kpi kpi-3 k-none">
+      <div class="head">
+        <h2 class="ttl"><svg class="ic" aria-hidden="true"><use href="#i-signup"/></svg>Signups App</h2>
+        <span class="pill s-wait"><svg aria-hidden="true"><use href="#e-half"/></svg>Dato parcial</span>
+      </div>
+      <div class="figrow">
+        <p class="det frac"><b>217</b><span class="den"> / 1.624</span></p>
+        <div class="n80">13<span class="unit">%</span></div>
+      </div>
+      <div class="bar kbar" role="img" aria-label="13 % de la meta del mes"><i style="width:13.35%"></i><b class="meta-end"></b></div>
+    </article>
+  </div>
+
+  <footer class="foot">
+    <span class="t24 muted" id="periodo"></span>
+    <span class="t24 live">Actualizado&nbsp;10:05</span>
+  </footer>
+</div>
+</div>
+
+<script>
+const real = [2376,4555,6758,8812,10346,11510,14035,16188,18267,20198,22178,23638,24950,27476,29629,31732,33118,33589,34084,35272,37946,40173,42401,44703,46930,48490,49827,52624];
+const budget = [1896,3724,5550,7328,8620,9684,11923,13820,15647,17474,19250,20542,21607,23846,25742,27571,29396,29812,30226,31291,33530,35426,37255,39080,40858,42150,43214,45453,47350,49178];
+/* D75: unica fecha de datos del archivo. Sale del json de origen (1.Shaping/2026-09-30_datos-dia-29.json,
+   "fecha": "martes 29 de septiembre de 2026"). El pie y el rotulo del grupo se generan desde aqui. */
+const FECHA_DATOS = "2026-09-29";
+(() => {
+  /* mediodia UTC y formato en UTC: el dia no se corre con la zona horaria del equipo */
+  const d = new Date(FECHA_DATOS + "T12:00:00Z");
+  const f = o => new Intl.DateTimeFormat("es-CL", { timeZone: "UTC", ...o }).format(d);
+  const may = t => t.charAt(0).toUpperCase() + t.slice(1);
+  const mes = may(f({ month: "long" }));
+  document.getElementById("periodo").textContent = `${may(f({ weekday: "long" }))} ${f({ day: "numeric" })} de ${mes}`;
+  document.getElementById("bk-t").lastChild.textContent = "Bookings Chile: " + mes;
+})();
+const META = 49178;
+function drawChart() {
+  const svg = document.getElementById("chart");
+  const C = getComputedStyle(document.querySelector(".qM")); const V = n => C.getPropertyValue("--" + n).trim();
+  const W = svg.clientWidth, H = svg.clientHeight;
+  /* v37: el presupuesto acumulado es un area tenue hasta el dia 30 y lo real una linea blanca gruesa
+     que termina en un punto el dia 28: no hay borde que caiga a cero, y en gris se separan por tipo de
+     marca y por valor. La meta sigue en negro. */
+  const m = { t: 40, b: 113.5 }; /* v49: 24 entre el eje (borde inferior del trazo) y la caja de linea de la leyenda */
+  /* v39: la ultima linea de la leyenda comparte la linea base de la fraccion del 115 */
+  const LB = (() => { const f = document.querySelector(".qM .frac"), z = document.createElement("span");
+    z.style.cssText = "display:inline-block;width:0;height:0"; f.appendChild(z);
+    const v = svg.getBoundingClientRect().bottom - z.getBoundingClientRect().top; z.remove(); return Math.round(v); })();
+  const ih = H - m.t - m.b, slot = W / 30;
+  const cx = d => (d - 0.5) * slot;
+  const y = v => m.t + ih - v / 57000 * ih;
+  const t = (x, yy, s, a = "start", c = V("up-text"), fs = 28, fw = 600) => `<text x="${x}" y="${yy}" fill="${c}" font-size="${fs}" font-weight="${fw}" text-anchor="${a}">${s}</text>`;
+  const INK = "#0c0c16", AREA = "rgba(255,255,255,.24)";
+  let s = "";
+  /* D72 + D73: lineas guia en 20.000 y 40.000 (2 px, blanco al 25 %), detras del area, la linea y la proyeccion;
+     rotulos a 28/500 en blanco al 75 % (3,11:1 sobre el slate), a la izquierda y con su base 8 sobre la linea.
+     Sin guia en 60.000: quedaria a 18,9 px de la meta y su rotulo cruzaria la linea de meta. */
+  [15000, 30000].forEach(v => {
+    s += `<line class="guia" x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.25)" stroke-width="2"/>`;
+    s += `<text class="guia-rot" x="0" y="${y(v) - 8}" fill="rgba(255,255,255,.75)" font-size="28" font-weight="500">${v.toLocaleString("es-CL")}</text>`;
+  });
+  let area = `M0,${y(0)} `;
+  budget.forEach((v, i) => { area += `L${cx(i + 1)},${y(v)} `; });
+  area += `L${W},${y(budget[budget.length - 1])} L${W},${y(0)} Z`;
+  s += `<path d="${area}" fill="${AREA}"/>`;
+  s += `<line x1="0" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="${V("up-track")}" stroke-width="3"/>`;
+  let line = "";
+  real.forEach((v, i) => { line += (i ? "L" : "M") + `${cx(i + 1)},${y(v)} `; });
+  s += `<path d="${line}" fill="none" stroke="${V("up-data")}" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>`;
+  /* D48: proyeccion punteada en la tinta de lo real, desde el ultimo dia con dato hasta el 30, al ritmo
+     promedio diario del mes hasta hoy (real / dias con dato). Sin rotulo (D41, D42). */
+  /* D54: el cierre proyectado viene de los datos (bookings_chile.proyeccion_de_cierre, 2026-09-30_datos-dia-29.json) */
+  const PROY = 56936, n = real.length, last = real[n - 1], proy = PROY;
+  s += `<line x1="${cx(n)}" y1="${y(last)}" x2="${cx(30)}" y2="${y(proy)}" stroke="${V("up-data")}" stroke-width="5" stroke-dasharray="6 9" stroke-linecap="round"/>`;
+  s += `<circle cx="${cx(n)}" cy="${y(last)}" r="9" fill="${V("up-data")}"/>`;
+  /* D76/D77: la meta en blanco (linea y rotulo) */
+  const META_C = "#ffffff";
+  s += `<line x1="0" x2="${W}" y1="${y(META)}" y2="${y(META)}" stroke="${META_C}" stroke-width="4"/>`;
+  s += `<text x="0" y="${y(META) - 10}" fill="${META_C}" font-size="35" font-weight="500">Meta <tspan font-weight="600">49.178</tspan></text>`;
+  /* D66: muestra-texto 16 (desde el borde visible de la muestra) y 8 entre "Acumulado" y la muestra de "Proyeccion" */
+  s += `<line x1="2" x2="28.5" y1="${H - LB - 56}" y2="${H - LB - 56}" stroke="${V("up-data")}" stroke-width="7" stroke-linecap="round"/>` + t(48, H - LB - 44, "Acumulado", "start", V("up-text"), 35, 500);
+  s += `<rect x="0" y="${H - LB - 24}" width="32" height="24" rx="4" fill="${AREA}"/>` + t(48, H - LB, "Presupuesto", "start", V("up-text"), 35, 500);
+  svg.innerHTML = s;
+  const acc = [...svg.querySelectorAll("text")].find(e => e.textContent === "Acumulado").getBBox();
+  const PX = acc.x + acc.width + 8 + 0.5; /* el trazo punteado (ancho 5, punta redonda) empieza 2,5 antes de x1 = PX + 2 */
+  s += `<line x1="${PX + 2}" x2="${PX + 30}" y1="${H - LB - 56}" y2="${H - LB - 56}" stroke="${V("up-data")}" stroke-width="5" stroke-dasharray="6 9" stroke-linecap="round"/>` + t(PX + 41.5, H - LB - 44, "Proyección", "start", V("up-text"), 35, 500);
+  svg.innerHTML = s;
+}
+function fit() {
+  const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+  document.getElementById("fit").style.transform = `scale(${k}) translate(-50%, -50%)`;
+}
+const m = location.hash.match(/p=(\w)/); if (m) document.documentElement.dataset.p = m[1];
+fit(); drawChart();
+addEventListener("resize", fit);
+document.fonts && document.fonts.ready.then(drawChart);
+</script>
+</body>
+</html>
